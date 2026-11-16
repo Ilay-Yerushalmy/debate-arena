@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Debate Arena</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+    <h1>Debate Arena</h1>
+    <nav>
+        <button class="tab active" data-tab="debate">Debate</button>
+        <button class="tab" data-tab="claims">Claims</button>
+        <button class="tab" data-tab="leaderboard">Leaderboard</button>
+        <button class="tab" data-tab="manage">Manage</button>
+    </nav>
+</header>
+
+<main>
+    <!-- ============================== DEBATE ============================== -->
+    <section id="tab-debate" class="panel active">
+        <div class="row">
+            <label>Session
+                <select id="session-select"></select>
+            </label>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Arguments</h2>
+                <div id="argument-list" class="argument-list"></div>
+            </div>
+
+            <div class="card">
+                <h2>New argument</h2>
+                <form id="argument-form" class="form">
+                    <label>Participant <select name="participantId" id="arg-participant" required></select></label>
+                    <label>Claim <select name="claimId" id="arg-claim" required></select></label>
+                    <label>Stance
+                        <select name="stance" required>
+                            <option value="PRO">PRO - supports the claim</option>
+                            <option value="CON">CON - opposes the claim</option>
+                        </select>
+                    </label>
+                    <label>Argument <textarea name="content" id="arg-content" rows="6" minlength="10" required
+                                              placeholder="Make your case. Examples and cited sources raise the quality score."></textarea></label>
+                    <div id="quality-preview" class="quality-preview muted">Start typing to see a live quality assessment.</div>
+                    <button type="submit">Submit argument</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== CLAIMS ============================== -->
+    <section id="tab-claims" class="panel">
+        <div class="row">
+            <label>Topic <select id="claims-topic-select"></select></label>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h2>Claim strength across all sessions</h2>
+                <canvas id="claims-chart" height="220"></canvas>
+                <ul id="claims-list" class="claims-list"></ul>
+            </div>
+            <div class="card">
+                <h2 id="claim-detail-title">Select a claim</h2>
+                <canvas id="claim-sessions-chart" height="180"></canvas>
+                <h3>Participant ranking for this claim</h3>
+                <table class="table" id="claim-ranking-table"></table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================ LEADERBOARD ============================ -->
+    <section id="tab-leaderboard" class="panel">
+        <div class="grid">
+            <div class="card">
+                <h2>Overall participant ranking</h2>
+                <table class="table" id="leaderboard-table"></table>
+            </div>
+            <div class="card">
+                <h2>Score by participant</h2>
+                <canvas id="leaderboard-chart" height="220"></canvas>
+                <div id="participant-stats" class="stats"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================== MANAGE =============================== -->
+    <section id="tab-manage" class="panel">
+        <div class="grid four">
+            <form class="card form" data-endpoint="/participants" data-kind="participant">
+                <h2>Add participant</h2>
+                <label>Name <input name="name" maxlength="40" required></label>
+                <button type="submit">Add</button>
+            </form>
+            <form class="card form" data-endpoint="/topics" data-kind="topic">
+                <h2>Add topic</h2>
+                <label>Title <input name="title" maxlength="120" required></label>
+                <label>Description <textarea name="description" rows="3" maxlength="500"></textarea></label>
+                <button type="submit">Add</button>
+            </form>
+            <form class="card form" data-kind="claim">
+                <h2>Add claim</h2>
+                <label>Topic <select name="topicId" class="topic-options" required></select></label>
+                <label>Claim <input name="text" maxlength="300" required></label>
+                <button type="submit">Add</button>
+            </form>
+            <form class="card form" data-endpoint="/sessions" data-kind="session">
+                <h2>New debate session</h2>
+                <label>Topic <select name="topicId" class="topic-options" required></select></label>
+                <label>Title <input name="title" maxlength="120" required></label>
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>
