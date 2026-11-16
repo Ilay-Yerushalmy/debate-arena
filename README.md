@@ -14,6 +14,10 @@ other's arguments. The system then:
 
 > Academic project, Ariel University (2024).
 
+> **About this code:** this repository is a 2026 rewrite of my original course project, built with AI-assisted development (Claude Code) as hands-on practice with AI tools. The original design, game/system logic and requirements come from the 2024 project.
+
+**Author:** Ilay Yerushalmi · [github.com/Ilay-Yerushalmy](https://github.com/Ilay-Yerushalmy)
+
 ---
 
 ## Features
